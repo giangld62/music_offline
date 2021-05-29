@@ -1,11 +1,9 @@
 package com.unica.musicplayer
 
-import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.*
 import android.view.View
-import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -62,10 +60,11 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener, Run
         super.onResume()
     }
 
-    private fun nextBtnClicked(){
+    private fun nextBtnClicked(_mediaPlayer: MediaPlayer?){
+        var mediaPlayer = _mediaPlayer
         if (mediaPlayer!!.isPlaying) {
-            mediaPlayer!!.stop()
-            mediaPlayer!!.release()
+            mediaPlayer.stop()
+            mediaPlayer.release()
             if(shuffleBoolean && !repeatBoolean){
                 position = Random.nextInt(listOfSong.size)+1
             }
@@ -77,11 +76,11 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener, Run
             binding.data = listOfSong[position]
             binding.playPause.setBackgroundResource(R.drawable.ic_baseline_pause_24)
             mediaPlayer!!.start()
-            mediaPlayer!!.setOnCompletionListener(this@PlayerActivity)
+            mediaPlayer.setOnCompletionListener(this@PlayerActivity)
         }
         else{
-            mediaPlayer!!.stop()
-            mediaPlayer!!.release()
+            mediaPlayer.stop()
+            mediaPlayer.release()
             if(shuffleBoolean && !repeatBoolean){
                 position = Random.nextInt(listOfSong.size)+1
             }
@@ -96,19 +95,19 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener, Run
         }
     }
 
-    private fun nextThreadBtn() {
+    fun nextThreadBtn() {
         nextThread = object : Thread() {
             override fun run() {
                 super.run()
                 binding.next.setOnClickListener {
-                    nextBtnClicked()
+                    nextBtnClicked(mediaPlayer)
                 }
             }
         }
         (nextThread as Thread).start()
     }
 
-    private fun prevThreadBtn() {
+    fun prevThreadBtn() {
         prevThread = object : Thread() {
             override fun run() {
                 super.run()
@@ -149,6 +148,7 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener, Run
         }
         (prevThread as Thread).start()
     }
+
 
     private fun playThreadBtn() {
         playThread = object : Thread() {
@@ -226,8 +226,9 @@ class PlayerActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener, Run
         handler.postDelayed(this, 1000)
     }
 
+
     override fun onCompletion(mp: MediaPlayer?) {
-        nextBtnClicked()
+        nextBtnClicked(mediaPlayer)
         if(mediaPlayer!=null){
             mediaPlayer = MediaPlayer.create(applicationContext,uri)
             mediaPlayer!!.start()

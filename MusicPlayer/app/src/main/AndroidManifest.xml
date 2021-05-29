@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.unica.musicplayer">
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <application
+        android:name=".application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,6 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".PlayerActivity"/>
+        <service android:name=".service.MyService"/>
+        <receiver android:name=".broadcastreceiver.MyReceiver"/>
     </application>
 
 </manifest>

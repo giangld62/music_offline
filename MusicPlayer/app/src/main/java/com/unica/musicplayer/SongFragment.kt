@@ -10,11 +10,15 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.unica.musicplayer.databinding.FragmentSongBinding
+import com.unica.musicplayer.service.MyService
 
 
 class SongFragment : Fragment(), MusicAdapter.IMusic {
     private var binding : FragmentSongBinding? = null
-    private var listOfSong = mutableListOf<SongData>()
+    companion object{
+        var listOfSong = mutableListOf<SongData>()
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,6 +54,14 @@ class SongFragment : Fragment(), MusicAdapter.IMusic {
         intent.putExtra("song",listOfSong[position])
         intent.putExtra("position",position)
         startActivity(intent)
+
+        clickStartService(position)
+    }
+
+    private fun clickStartService(position: Int) {
+        val intent = Intent(context,MyService::class.java)
+        intent.putExtra("position",position)
+        (activity as MainActivity).startService(intent)
     }
 
 
