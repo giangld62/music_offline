@@ -3,10 +3,12 @@ package com.unica.musicplayer
 import android.Manifest
 import android.content.pm.PackageManager
 import android.media.MediaMetadataRetriever
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     companion object{
         var listOfSong = mutableListOf<SongData>()
     }
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -29,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         getAllSong()
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
     fun getAllSong():MutableList<SongData>{
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(

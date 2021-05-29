@@ -1,11 +1,13 @@
 package com.unica.musicplayer
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.unica.musicplayer.databinding.FragmentSongBinding
 
@@ -21,6 +23,7 @@ class SongFragment : Fragment(), MusicAdapter.IMusic {
         return binding!!.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listOfSong = (activity as MainActivity).getAllSong()
